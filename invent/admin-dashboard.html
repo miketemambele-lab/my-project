@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FPOP Inventory</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Dark Theme */
+        body {
+            transition: background 0.5s ease, color 0.3s ease;
+        }
+        
+        .dark-theme {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+            color: #e0e0e0;
+        }
+        
+        .dark-theme .navbar-custom {
+            background: rgba(26, 26, 46, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-theme .blur-card {
+            background: rgba(26, 26, 46, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .dark-theme .dashboard-card {
+            background: rgba(26, 26, 46, 0.9) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .dark-theme .stat-box {
+            color: #e0e0e0;
+        }
+        
+        .dark-theme .table {
+            color: #e0e0e0;
+        }
+        
+        .dark-theme .table thead th {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-theme .table tbody tr {
+            background: rgba(26, 26, 46, 0.5);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .dark-theme .table tbody tr:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .dark-theme .modal-content {
+            background: rgba(26, 26, 46, 0.95) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .dark-theme .form-control {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+            color: #e0e0e0 !important;
+        }
+        
+        .dark-theme .form-control:focus {
+            background: rgba(255, 255, 255, 0.15) !important;
+            border-color: #667eea !important;
+            color: #e0e0e0 !important;
+        }
+        
+        .dark-theme .form-select {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+            color: #e0e0e0 !important;
+        }
+        
+        .dark-theme .card {
+            background: rgba(26, 26, 46, 0.8) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* Light Theme */
+        .light-theme {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2c3e50;
+        }
+        
+        .light-theme .navbar-custom {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: #2c3e50 !important;
+        }
+        
+        .light-theme .navbar-custom .navbar-brand,
+        .light-theme .navbar-custom .nav-link {
+            color: #2c3e50 !important;
+        }
+        
+        .light-theme .blur-card {
+            background: rgba(255, 255, 255, 0.9) !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+            color: #2c3e50;
+        }
+        
+        .light-theme .dashboard-card {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+            color: #2c3e50;
+        }
+        
+        .light-theme .modal-content {
+            background: rgba(255, 255, 255, 0.98) !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+            color: #2c3e50;
+        }
+        
+        .light-theme .card {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border-color: rgba(0, 0, 0, 0.1) !important;
+            color: #2c3e50;
+        }
+        
+        .light-theme .table {
+            color: #2c3e50;
+        }
+        
+        .light-theme .table thead th {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(0, 0, 0, 0.1);
+            color: #2c3e50;
+        }
+        
+        .light-theme .table tbody tr {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .light-theme .table tbody tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        /* Theme preview animation */
+        .theme-transition {
+            animation: themeChange 0.5s ease-in-out;
+        }
+        
+        @keyframes themeChange {
+            0% { opacity: 0.8; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1.02); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Language change animation */
+        .lang-transition {
+            animation: langChange 0.3s ease-in-out;
+        }
+        
+        @keyframes langChange {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shield-alt"></i> Admin Panel
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> <span id="adminName">Admin</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal"><i class="fas fa-edit"></i> Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#settingsModal"><i class="fas fa-cog"></i> Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="index.html" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            <li><a class="dropdown-item text-danger" href="index.html" id="forceLogoutBtn"><i class="fas fa-sign-out-alt"></i> Force Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <!-- Alert Section -->
+        <div id="alertDiv"></div>
+
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active blur-card" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link blur-card" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button">
+                    <i class="fas fa-users"></i> Users & Online
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link blur-card" id="stock-tab" data-bs-toggle="tab" data-bs-target="#stock" type="button">
+                    <i class="fas fa-box"></i> Stock Management
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link blur-card" id="sales-tab" data-bs-toggle="tab" data-bs-target="#sales" type="button">
+                    <i class="fas fa-chart-bar"></i> Sales Reports
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link blur-card" id="users-manage-tab" data-bs-toggle="tab" data-bs-target="#users-manage" type="button">
+                    <i class="fas fa-user-plus"></i> Manage Users
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link blur-card" id="inquiries-tab" data-bs-toggle="tab" data-bs-target="#inquiries" type="button">
+                    <i class="fas fa-envelope"></i> Customer Inquiries
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="adminTabContent">
+            <!-- Dashboard Tab -->
+            <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="dashboard-card">
+                            <div class="stat-box">
+                                <div class="stat-number" id="totalUsers">0</div>
+                                <div class="stat-label">Total Users</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="dashboard-card">
+                            <div class="stat-box">
+                                <div class="stat-number" id="onlineUsers">0</div>
+                                <div class="stat-label">Online Now</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="dashboard-card">
+                            <div class="stat-box">
+                                <div class="stat-number" id="totalMedications">0</div>
+                                <div class="stat-label">Total Medications</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="dashboard-card">
+                            <div class="stat-box">
+                                <div class="stat-number" id="lowStockMeds">0</div>
+                                <div class="stat-label">Low Stock Items</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h5 style="color: white; margin-bottom: 20px;">
+                        <i class="fas fa-bell"></i> Recent Activity
+                    </h5>
+                    <div class="table-responsive">
+                        <table class="table table-transparent blur-table" id="recentActivityTable">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>User</th>
+                                    <th>Activity</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users & Online Tab -->
+            <div class="tab-pane fade" id="users" role="tabpanel">
+                <div class="dashboard-card">
+                    <h5 style="color: white; margin-bottom: 20px;">
+                        <i class="fas fa-users"></i> Users & Online Status
+                    </h5>
+                    <div class="table-responsive">
+                        <table class="table table-transparent blur-table" id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Last Login</th>
+                                    <th>Total Sales</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock Management Tab -->
+            <div class="tab-pane fade" id="stock" role="tabpanel">
+                <!-- Stock Overview Cards -->
+                <div class="row g-4 mb-4" id="stockOverview">
+                    <div class="col-md-3">
+                        <div class="dashboard-card">
+                            <div class="stat-box">
+                                <div class="stat-number" id="totalStockItems">0</div>
+                                <div class="stat-label">Total Items</div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-pills text-primary"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dashboard-card">
+                            <div class="stat-box">
+                                <div class="stat-number" id="totalStockValue">TSH 0.00</div>
+                                <div class="stat-label">Total Value</div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-dollar-sign text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dashboard-card">
+                            <div class="stat-box">
+                                <div class="stat-number" id="lowStockAlerts">0</div>
+                                <div class="stat-label">Low Stock Alerts</div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dashboard-card">
+                            <div class="stat-box">
+                                <div class="stat-number" id="outOfStockItems">0</div>
+                                <div class="stat-label">Out of Stock</div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-times-circle text-danger"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="dashboard-card">
+                            <h5 style="color: white; margin-bottom: 20px;">
+                                <i class="fas fa-plus-circle"></i> Add New Medication
+                            </h5>
+                            <form id="addMedicationForm" method="post" action="javascript:void(0)">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Medication Name</label>
+                                        <input type="text" class="form-control" id="medName" placeholder="Enter medication name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Dosage/Type</label>
+                                        <input type="text" class="form-control" id="medDosage" placeholder="e.g., 500mg" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Quantity in Stock</label>
+                                        <input type="number" class="form-control" id="medQuantity" placeholder="0" min="0" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Minimum Quantity Alert</label>
+                                        <input type="number" class="form-control" id="medMinQuantity" placeholder="10" min="1" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Price per Unit (TSH)</label>
+                                        <input type="number" class="form-control" id="medPrice" placeholder="0.00" min="0" step="0.01" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Category</label>
+                                        <select class="form-control" id="medCategory">
+                                            <option value="general">General Medicine</option>
+                                            <option value="pain">Pain Relief</option>
+                                            <option value="antibiotic">Antibiotic</option>
+                                            <option value="cardiac">Cardiac</option>
+                                            <option value="diabetes">Diabetes</option>
+                                            <option value="respiratory">Respiratory</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="form-control" id="medDescription" rows="3" placeholder="Add medication details, usage instructions, side effects..."></textarea>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-custom-primary w-100 mt-3">
+                                    <i class="fas fa-save"></i> Add Medication
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="dashboard-card">
+                            <h5 style="color: white; margin-bottom: 20px;">
+                                <i class="fas fa-file-excel"></i> Bulk Upload (Excel/CSV)
+                            </h5>
+                            <div class="mb-4">
+                                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 15px;">
+                                    Upload an Excel or CSV file with the following columns:
+                                </p>
+                                <div style="background: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 8px; color: rgba(255, 255, 255, 0.9); font-size: 12px;">
+                                    <strong>Required:</strong> Name, Dosage, Quantity, MinQuantity, Price<br>
+                                    <strong>Optional:</strong> Description, Category
+                                </div>
+                            </div>
+                            <form id="excelUploadForm">
+                                <div class="mb-3">
+                                    <label for="excelFile" class="form-label">Select File</label>
+                                    <input type="file" class="form-control" id="excelFile" accept=".xlsx, .xls, .csv" required>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <button type="submit" class="btn btn-custom-primary w-100">
+                                            <i class="fas fa-upload"></i> Upload
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-outline-light w-100" id="downloadTemplate">
+                                            <i class="fas fa-download"></i> Template
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div id="excelStatus" class="mt-3"></div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="dashboard-card mt-4">
+                            <h6 style="color: white; margin-bottom: 15px;">
+                                <i class="fas fa-bolt"></i> Quick Actions
+                            </h6>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-warning" id="generateLowStockReport">
+                                    <i class="fas fa-exclamation-triangle"></i> Low Stock Report
+                                </button>
+                                <button class="btn btn-outline-info" id="exportInventory">
+                                    <i class="fas fa-file-export"></i> Export Inventory
+                                </button>
+                                <button class="btn btn-outline-danger" id="clearAllStock">
+                                    <i class="fas fa-trash-alt"></i> Clear All Stock
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Stock Table -->
+                <div class="dashboard-card mt-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 style="color: white; margin: 0;">
+                            <i class="fas fa-list"></i> Current Stock Inventory
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <input type="text" class="form-control form-control-sm" id="searchStock" placeholder="Search medications..." style="width: 200px;">
+                            <select class="form-control form-control-sm" id="filterStockStatus" style="width: 150px;">
+                                <option value="all">All Status</option>
+                                <option value="ok">In Stock</option>
+                                <option value="low">Low Stock</option>
+                                <option value="critical">Critical</option>
+                                <option value="out">Out of Stock</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-transparent blur-table" id="stockTable">
+                            <thead>
+                                <tr>
+                                    <th>Medication</th>
+                                    <th>Dosage</th>
+                                    <th>In Stock</th>
+                                    <th>Min Required</th>
+                                    <th>Status</th>
+                                    <th>Price</th>
+                                    <th>Value</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Reports Tab -->
+            <div class="tab-pane fade" id="sales" role="tabpanel">
+                <div class="dashboard-card">
+                    <h5 style="color: white; margin-bottom: 20px;">
+                        <i class="fas fa-chart-bar"></i> Sales by Medication
+                    </h5>
+                    <div class="table-responsive">
+                        <table class="table table-transparent blur-table" id="salesByMedTable">
+                            <thead>
+                                <tr>
+                                    <th>Medication</th>
+                                    <th>Total Sold</th>
+                                    <th>Total Revenue</th>
+                                    <th>Last Sold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="dashboard-card mt-4">
+                    <h5 style="color: white; margin-bottom: 20px;">
+                        <i class="fas fa-history"></i> Sale History (Last 50)
+                    </h5>
+                    <div class="table-responsive">
+                        <table class="table table-transparent blur-table" id="saleHistoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th>Medication</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manage Users Tab -->
+            <div class="tab-pane fade" id="users-manage" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="dashboard-card">
+                            <h5 style="color: white; margin-bottom: 20px;">
+                                <i class="fas fa-user-plus"></i> Create New User
+                            </h5>
+                            <form id="createUserForm" method="post" action="javascript:void(0)">
+                                <div class="mb-3">
+                                    <label class="form-label">User Name</label>
+                                    <input type="text" class="form-control" id="newUserName" placeholder="Enter user name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="newUserEmail" placeholder="user@email.com" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="newUserPassword" placeholder="••••••••" required>
+                                        <button class="btn btn-outline-light" type="button" id="toggleNewPass">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Role</label>
+                                    <select class="form-control" id="newUserRole" required>
+                                        <option value="user">User (Sales)</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-custom-primary w-100">
+                                    <i class="fas fa-user-plus"></i> Create User
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="dashboard-card">
+                            <h5 style="color: white; margin-bottom: 20px;">
+                                <i class="fas fa-list"></i> All Users
+                            </h5>
+                            <div id="allUsersDiv"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Inquiries Tab -->
+        <div class="tab-pane fade" id="inquiries" role="tabpanel">
+            <div class="dashboard-card">
+                <h5 style="color: white; margin-bottom: 20px;">
+                    <i class="fas fa-envelope"></i> Customer Inquiries & Custom Solutions
+                </h5>
+                <div class="table-responsive">
+                    <table class="table table-transparent blur-table" id="inquiriesTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Company</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Profile Modal -->
+    <div class="modal fade" id="profileModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <div class="modal-header" style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+                    <h5 class="modal-title" style="color: #333; font-weight: 600;">
+                        <i class="fas fa-user-edit" style="color: #667eea;"></i> Edit Profile
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="profileAlertDiv"></div>
+                    
+                    <!-- Profile Picture Section -->
+                    <div class="text-center mb-4">
+                        <div class="position-relative d-inline-block">
+                            <div class="profile-avatar" style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                                <i class="fas fa-user fa-3x text-white"></i>
+                            </div>
+                            <button class="btn btn-sm btn-primary position-absolute bottom-0 end-0 rounded-circle" style="width: 32px; height: 32px;">
+                                <i class="fas fa-camera fa-xs"></i>
+                            </button>
+                        </div>
+                        <p class="text-muted mt-2 small">Click to change profile picture</p>
+                    </div>
+
+                    <form id="profileForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold" style="color: #333;">
+                                    <i class="fas fa-user text-primary me-1"></i> Display Name
+                                </label>
+                                <input type="text" class="form-control" id="profileDisplayName" placeholder="Enter your display name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold" style="color: #333;">
+                                    <i class="fas fa-envelope text-primary me-1"></i> Email Address
+                                </label>
+                                <input type="email" class="form-control" id="profileEmail" readonly style="background-color: #f8f9fa;">
+                                <small class="text-muted">Email cannot be changed</small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold" style="color: #333;">
+                                    <i class="fas fa-shield-alt text-success me-1"></i> Account Role
+                                </label>
+                                <input type="text" class="form-control" id="profileRole" readonly style="background-color: #f8f9fa;" value="Administrator">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold" style="color: #333;">
+                                    <i class="fas fa-calendar text-info me-1"></i> Member Since
+                                </label>
+                                <input type="text" class="form-control" id="profileCreatedAt" readonly style="background-color: #f8f9fa;">
+                            </div>
+                        </div>
+
+                        <hr style="border-color: rgba(0,0,0,0.1);">
+
+                        <h6 class="mb-3" style="color: #333; font-weight: 600;">
+                            <i class="fas fa-lock text-warning me-1"></i> Change Password
+                        </h6>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" style="color: #666;">Current Password</label>
+                                <input type="password" class="form-control" id="currentPassword" placeholder="Enter current password">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" style="color: #666;">New Password</label>
+                                <input type="password" class="form-control" id="newPassword" placeholder="Enter new password">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label" style="color: #666;">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid rgba(0,0,0,0.1);">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i> Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" id="saveProfileBtn">
+                        <i class="fas fa-save me-1"></i> Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <div class="modal-header" style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+                    <h5 class="modal-title" style="color: #333; font-weight: 600;">
+                        <i class="fas fa-cogs" style="color: #667eea;"></i> System Settings
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="settingsAlertDiv"></div>
+                    
+                    <!-- Settings Tabs -->
+                    <ul class="nav nav-pills mb-4" id="settingsTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="general-tab" data-bs-toggle="pill" data-bs-target="#general" type="button" role="tab">
+                                <i class="fas fa-sliders-h me-1"></i> General
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="notifications-tab" data-bs-toggle="pill" data-bs-target="#notifications" type="button" role="tab">
+                                <i class="fas fa-bell me-1"></i> Notifications
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="security-tab" data-bs-toggle="pill" data-bs-target="#security" type="button" role="tab">
+                                <i class="fas fa-shield-alt me-1"></i> Security
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="data-tab" data-bs-toggle="pill" data-bs-target="#data" type="button" role="tab">
+                                <i class="fas fa-database me-1"></i> Data & Export
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Settings Content -->
+                    <div class="tab-content" id="settingsTabContent">
+                        <!-- General Settings -->
+                        <div class="tab-pane fade show active" id="general" role="tabpanel">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="card border-0 shadow-sm" style="background: rgba(255, 255, 255, 0.9);">
+                                        <div class="card-body">
+                                            <h6 class="card-title" style="color: #333;">
+                                                <i class="fas fa-palette text-primary me-1"></i> Theme Preferences
+                                            </h6>
+                                            <div class="mb-3">
+                                                <label class="form-label small">Dashboard Theme</label>
+                                                <select class="form-select" id="themeSelect">
+                                                    <option value="default">Default (Blue/Purple)</option>
+                                                    <option value="dark">Dark Mode</option>
+                                                    <option value="light">Light Mode</option>
+                                                </select>
+                                                <small class="text-muted">Changes apply immediately for preview</small>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label small">Language</label>
+                                                <select class="form-select" id="languageSelect">
+                                                    <option value="en">English</option>
+                                                    <option value="sw">Swahili</option>
+                                                    <option value="es">Español</option>
+                                                    <option value="fr">Français</option>
+                                                </select>
+                                                <small class="text-muted">Changes apply immediately for preview</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-0 shadow-sm" style="background: rgba(255, 255, 255, 0.9);">
+                                        <div class="card-body">
+                                            <h6 class="card-title" style="color: #333;">
+                                                <i class="fas fa-clock text-info me-1"></i> System Preferences
+                                            </h6>
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" id="autoRefresh" checked>
+                                                <label class="form-check-label small" for="autoRefresh">
+                                                    Auto-refresh dashboard data
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" id="showWelcome" checked>
+                                                <label class="form-check-label small" for="showWelcome">
+                                                    Show welcome message on login
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="compactView">
+                                                <label class="form-check-label small" for="compactView">
+                                                    Use compact view for tables
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notifications Settings -->
+                        <div class="tab-pane fade" id="notifications" role="tabpanel">
+                            <div class="card border-0 shadow-sm" style="background: rgba(255, 255, 255, 0.9);">
+                                <div class="card-body">
+                                    <h6 class="card-title mb-4" style="color: #333;">
+                                        <i class="fas fa-bell text-warning me-1"></i> Notification Preferences
+                                    </h6>
+                                    
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <h6 class="small text-muted mb-3">EMAIL NOTIFICATIONS</h6>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="emailNewUser" checked>
+                                                <label class="form-check-label small" for="emailNewUser">
+                                                    New user registrations
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="emailLowStock" checked>
+                                                <label class="form-check-label small" for="emailLowStock">
+                                                    Low stock alerts
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="emailSales" checked>
+                                                <label class="form-check-label small" for="emailSales">
+                                                    Daily sales reports
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="small text-muted mb-3">SYSTEM NOTIFICATIONS</h6>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="notifyErrors" checked>
+                                                <label class="form-check-label small" for="notifyErrors">
+                                                    System errors and warnings
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="notifyBackup" checked>
+                                                <label class="form-check-label small" for="notifyBackup">
+                                                    Backup completion notifications
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="notifySecurity">
+                                                <label class="form-check-label small" for="notifySecurity">
+                                                    Security alerts
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Settings -->
+                        <div class="tab-pane fade" id="security" role="tabpanel">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="card border-0 shadow-sm" style="background: rgba(255, 255, 255, 0.9);">
+                                        <div class="card-body">
+                                            <h6 class="card-title" style="color: #333;">
+                                                <i class="fas fa-key text-danger me-1"></i> Password Security
+                                            </h6>
+                                            <div class="mb-3">
+                                                <label class="form-label small">Session Timeout</label>
+                                                <select class="form-select" id="sessionTimeout">
+                                                    <option value="30">30 minutes</option>
+                                                    <option value="60" selected>1 hour</option>
+                                                    <option value="240">4 hours</option>
+                                                    <option value="480">8 hours</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" id="twoFactor">
+                                                <label class="form-check-label small" for="twoFactor">
+                                                    Enable two-factor authentication
+                                                </label>
+                                            </div>
+                                            <button class="btn btn-outline-danger btn-sm" id="forcePasswordChange">
+                                                <i class="fas fa-sync me-1"></i> Force password change for all users
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-0 shadow-sm" style="background: rgba(255, 255, 255, 0.9);">
+                                        <div class="card-body">
+                                            <h6 class="card-title" style="color: #333;">
+                                                <i class="fas fa-user-lock text-success me-1"></i> Access Control
+                                            </h6>
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" id="ipWhitelist">
+                                                <label class="form-check-label small" for="ipWhitelist">
+                                                    Enable IP whitelist
+                                                </label>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label small">Failed Login Attempts</label>
+                                                <select class="form-select" id="maxLoginAttempts">
+                                                    <option value="3">3 attempts</option>
+                                                    <option value="5" selected>5 attempts</option>
+                                                    <option value="10">10 attempts</option>
+                                                </select>
+                                            </div>
+                                            <button class="btn btn-outline-warning btn-sm" id="viewLoginHistory">
+                                                <i class="fas fa-history me-1"></i> View login history
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data & Export Settings -->
+                        <div class="tab-pane fade" id="data" role="tabpanel">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="card border-0 shadow-sm" style="background: rgba(255, 255, 255, 0.9);">
+                                        <div class="card-body">
+                                            <h6 class="card-title" style="color: #333;">
+                                                <i class="fas fa-download text-info me-1"></i> Data Export
+                                            </h6>
+                                            <p class="small text-muted mb-3">Export system data for backup or analysis</p>
+                                            <button class="btn btn-outline-primary btn-sm mb-2 w-100" id="exportUsers">
+                                                <i class="fas fa-users me-1"></i> Export Users Data
+                                            </button>
+                                            <button class="btn btn-outline-primary btn-sm mb-2 w-100" id="exportInventory">
+                                                <i class="fas fa-box me-1"></i> Export Inventory Data
+                                            </button>
+                                            <button class="btn btn-outline-primary btn-sm mb-2 w-100" id="exportSales">
+                                                <i class="fas fa-chart-bar me-1"></i> Export Sales Data
+                                            </button>
+                                            <button class="btn btn-outline-success btn-sm w-100" id="exportAll">
+                                                <i class="fas fa-file-archive me-1"></i> Export All Data
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-0 shadow-sm" style="background: rgba(255, 255, 255, 0.9);">
+                                        <div class="card-body">
+                                            <h6 class="card-title" style="color: #333;">
+                                                <i class="fas fa-database text-secondary me-1"></i> Data Management
+                                            </h6>
+                                            <p class="small text-muted mb-3">Manage system data and backups</p>
+                                            <button class="btn btn-outline-info btn-sm mb-2 w-100" id="backupData">
+                                                <i class="fas fa-save me-1"></i> Create Backup
+                                            </button>
+                                            <button class="btn btn-outline-warning btn-sm mb-2 w-100" id="clearLogs">
+                                                <i class="fas fa-trash me-1"></i> Clear System Logs
+                                            </button>
+                                            <button class="btn btn-outline-danger btn-sm w-100" id="resetSettings">
+                                                <i class="fas fa-undo me-1"></i> Reset to Defaults
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid rgba(0,0,0,0.1);">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i> Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" id="saveSettingsBtn">
+                        <i class="fas fa-save me-1"></i> Save Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inquiry Details Modal -->
+    <div class="modal fade" id="inquiryModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background: rgba(255, 255, 255, 0.95);">
+                <div class="modal-header">
+                    <h5 class="modal-title">Customer Inquiry Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="inquiryModalBody">
+                    <!-- Inquiry details will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+    <script type="module" src="js/admin-dashboard.js"></script>
+</body>
+</html>

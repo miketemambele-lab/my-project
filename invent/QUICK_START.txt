@@ -1,0 +1,183 @@
+# FPOP INVENTORY - QUICK START CHECKLIST
+
+## ⚡ 5-Minute Setup
+
+### 1. Firebase Setup (2 minutes)
+- [ ] Go to https://console.firebase.google.com
+- [ ] Create new project: "fpop-inventory"
+- [ ] Copy Firebase Config from Project Settings
+- [ ] Paste into `js/firebase-config.js`
+
+### 2. Enable Features (1 minute)
+- [ ] Enable Authentication → Email/Password
+- [ ] Enable Firestore Database → Production Mode
+
+### 3. Create Admin (1 minute)
+- [ ] Firebase Console → Authentication → Add User
+- [ ] Email: admin@company.com (example)
+- [ ] Password: (your choice)
+
+### 4. Add Collections (1 minute)
+Via Firestore Console, create:
+- [ ] Collection: `users`
+- [ ] Collection: `medications`
+- [ ] Collection: `sales`
+
+---
+
+## 🎯 Launch
+
+Open `index.html` in browser and login with admin credentials!
+
+---
+
+## 💻 Quick Commands
+
+### Firebase Init (if using Firebase Hosting)
+```bash
+npm install -g firebase-tools
+firebase init
+firebase deploy
+```
+
+### Live Server (for testing)
+```bash
+# Using Python
+python -m http.server 8000
+
+# Using Node
+npx http-server
+```
+
+---
+
+## 📱 Test Accounts to Create
+
+**Admin User**
+- Email: admin@company.com
+- Role: admin
+
+**Sales User 1**
+- Email: salesman1@company.com
+- Role: user
+
+**Sales User 2**
+- Email: salesman2@company.com
+- Role: user
+
+---
+
+## 🗄️ First Medications to Add
+
+Via Admin Dashboard → Stock Management:
+
+1. **Turmeric Extract**
+   - Dosage: 500mg
+   - Quantity: 100
+   - Min: 10
+   - Price: $5.99
+
+2. **Ginger Tea**
+   - Dosage: Per packet
+   - Quantity: 50
+   - Min: 5
+   - Price: $3.49
+
+3. **Honey Remedy**
+   - Dosage: 250ml
+   - Quantity: 30
+   - Min: 5
+   - Price: $12.99
+
+---
+
+## ✅ Verification Checklist
+
+### Admin Dashboard
+- [ ] Can login
+- [ ] Can create users
+- [ ] Can add medications
+- [ ] Can see online users
+- [ ] Dashboard shows statistics
+
+### User Dashboard
+- [ ] Can login as user
+- [ ] Can view medications
+- [ ] Can record sales
+- [ ] Can see sales history
+- [ ] Can view profile
+
+### Public Pages
+- [ ] Homepage loads
+- [ ] Login page works
+- [ ] Contact form submits
+- [ ] Privacy policy displays
+- [ ] Mobile responsive
+
+---
+
+## 🐛 Troubleshooting
+
+**Login doesn't work**
+- Check Firebase config is correct
+- Verify user exists in Firebase Auth
+- Clear browser cache
+
+**Data not saving**
+- Check Firestore rules
+- Verify collections exist
+- Check browser console for errors
+
+**Styles look wrong**
+- Check css/style.css is linked
+- Verify Bootstrap CDN loads
+- Clear browser cache
+
+**Can't upload Excel**
+- Check file format (.xlsx, .xls, .csv)
+- Verify column headers match
+- Check browser console for errors
+
+---
+
+## 📞 Support
+
+**Documentation**
+- README.md - Full documentation
+- SETUP_GUIDE.md - Detailed setup
+- FILE_INDEX.html - Visual guide
+
+**Contact**
+- Email: info@fpopcompany.com
+- Website: Use contact form in app
+
+---
+
+## 🚀 You're Ready!
+
+All files are created and ready to deploy.
+Just add your Firebase credentials and go live!
+
+**Features Included:**
+✓ 7 HTML pages
+✓ Professional UI
+✓ User authentication
+✓ Admin dashboard
+✓ User dashboard
+✓ Sales tracking
+✓ Inventory management
+✓ Excel upload
+✓ Real-time data
+✓ Mobile responsive
+✓ 5000+ lines of code
+✓ Complete documentation
+
+Estimated Setup Time: 30 minutes
+Estimated Deployment Time: 15 minutes
+
+Total: About 45 minutes to go live! 🎉
+
+---
+
+Last Updated: 2026
+FPOP Company Limited

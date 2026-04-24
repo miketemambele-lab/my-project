@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - FPOP Inventory</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-cube"></i> User Dashboard
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> <span id="userName">User</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal"><i class="fas fa-edit"></i> Edit Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="index.html" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <!-- Alert Section -->
+        <div id="alertDiv"></div>
+
+        <!-- Statistics -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="dashboard-card">
+                    <div class="stat-box">
+                        <div class="stat-number" id="totalSales">0</div>
+                        <div class="stat-label">Total Sales</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="dashboard-card">
+                    <div class="stat-box">
+                        <div class="stat-number">TSH <span id="totalRevenue">0.00</span></div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="dashboard-card">
+                    <div class="stat-box">
+                        <div class="stat-number" id="availableMeds">0</div>
+                        <div class="stat-label">Available Medications</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="dashboard-card">
+                    <div class="stat-box">
+                        <div class="stat-number" id="userStatus">Offline</div>
+                        <div class="stat-label">Current Status</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs mb-4" id="userTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active blur-card" id="sell-tab" data-bs-toggle="tab" data-bs-target="#sell" type="button">
+                    <i class="fas fa-shopping-cart"></i> Sell Medication
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link blur-card" id="inventory-tab" data-bs-toggle="tab" data-bs-target="#inventory" type="button">
+                    <i class="fas fa-box"></i> Inventory
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link blur-card" id="sales-history-tab" data-bs-toggle="tab" data-bs-target="#sales-history" type="button">
+                    <i class="fas fa-history"></i> Sales History
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="userTabContent">
+            <!-- Sell Medication Tab -->
+            <div class="tab-pane fade show active" id="sell" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="dashboard-card">
+                            <h5 style="color: white; margin-bottom: 20px;">
+                                <i class="fas fa-shopping-cart"></i> Record a Sale
+                            </h5>
+                            <form id="saleForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Select Medication</label>
+                                    <select class="form-control" id="medicationSelect" required></select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Quantity Sold</label>
+                                    <input type="number" class="form-control" id="saleQuantity" placeholder="1" min="1" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Price per Unit (TSH)</label>
+                                    <input type="number" class="form-control" id="salePrice" placeholder="0.00" min="0" step="0.01" readonly>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Sale Date</label>
+                                    <input type="datetime-local" class="form-control" id="saleDate" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <p style="color: rgba(255, 255, 255, 0.8); background: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 8px;">
+                                        Total: <strong style="color: #667eea; font-size: 18px;">TSH <span id="saleTotal">0.00</span></strong>
+                                    </p>
+                                </div>
+
+                                <button type="submit" class="btn btn-custom-primary w-100">
+                                    <i class="fas fa-check"></i> Record Sale
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="dashboard-card">
+                            <h5 style="color: white; margin-bottom: 20px;">
+                                <i class="fas fa-info-circle"></i> Sale Information
+                            </h5>
+                            <div style="background: rgba(0, 0, 0, 0.2); padding: 20px; border-radius: 10px; text-align: center;">
+                                <p style="color: rgba(255, 255, 255, 0.9); margin: 10px 0;">
+                                    <i class="fas fa-lightbulb" style="color: #f39c12; margin-right: 10px;"></i>
+                                    Select a medication to see available quantity and price
+                                </p>
+                                <div id="medInfo" style="margin-top: 20px; color: rgba(255, 255, 255, 0.8);">
+                                    <p>Available: <strong id="availableQty">0</strong></p>
+                                    <p id="stockStatus"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Tab -->
+            <div class="tab-pane fade" id="inventory" role="tabpanel">
+                <div class="dashboard-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 style="color: white; margin: 0;">
+                            <i class="fas fa-box"></i> Available Medications
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <input type="text" class="form-control form-control-sm" id="searchInventory" placeholder="Search medications..." style="width: 200px;">
+                            <select class="form-control form-control-sm" id="filterStock" style="width: 150px;">
+                                <option value="all">All Stock</option>
+                                <option value="available">Available</option>
+                                <option value="low">Low Stock</option>
+                                <option value="critical">Critical</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Inventory Stats -->
+                    <div class="row g-3 mb-4" id="inventoryStats">
+                        <div class="col-md-3">
+                            <div class="stat-mini-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-pills text-success"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="totalMeds">0</div>
+                                    <div class="stat-label">Total Medications</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-mini-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-check-circle text-info"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="availableMedsCount">0</div>
+                                    <div class="stat-label">Available</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-mini-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="lowStockCount">0</div>
+                                    <div class="stat-label">Low Stock</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-mini-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-times-circle text-danger"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="criticalStockCount">0</div>
+                                    <div class="stat-label">Critical</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medication Cards Grid -->
+                    <div class="row g-4" id="medicationCards">
+                        <!-- Populated by JavaScript -->
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyInventory" class="text-center py-5" style="display: none;">
+                        <div style="font-size: 60px; color: rgba(255, 255, 255, 0.3); margin-bottom: 20px;">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <h4 style="color: rgba(255, 255, 255, 0.7);">No medications found</h4>
+                        <p style="color: rgba(255, 255, 255, 0.5);">Try adjusting your search or filter criteria</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales History Tab -->
+            <div class="tab-pane fade" id="sales-history" role="tabpanel">
+                <div class="dashboard-card">
+                    <h5 style="color: white; margin-bottom: 20px;">
+                        <i class="fas fa-history"></i> My Sales History
+                    </h5>
+                    <div class="table-responsive">
+                        <table class="table table-transparent blur-table" id="salesHistoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Medication</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Total Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal fade" id="profileModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background: rgba(255, 255, 255, 0.95);">
+                <div class="modal-header">
+                    <h5 class="modal-title">My Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" id="profileUsername" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="profileEmail" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+                        <input type="text" class="form-control" id="profileRole" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Member Since</label>
+                        <input type="text" class="form-control" id="profileCreatedAt" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/user-dashboard.js"></script>
+</body>
+</html>
